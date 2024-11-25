@@ -1,5 +1,4 @@
-import kr.book.search.Book;
-import kr.book.search.KakaoBookApi;
+package kr.book.search;
 
 import java.io.IOException;
 import java.util.List;
