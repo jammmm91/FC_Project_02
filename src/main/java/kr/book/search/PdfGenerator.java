@@ -14,10 +14,10 @@ import com.itextpdf.layout.property.UnitValue;
 import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
+
 import java.io.*;
 import java.util.*;
 import java.net.MalformedURLException;
-
 
 public class PdfGenerator {
     public static void generateBookListPdf(List<Book> books, String fileName) throws FileNotFoundException {
@@ -26,7 +26,7 @@ public class PdfGenerator {
         Document document = new Document(pdf);
         document.setFontSize(12);
         // 폰트 생성 및 추가
-        PdfFont font=null;
+        PdfFont font = null;
         try {
             font = PdfFontFactory.createFont("Files/malgunsl.ttf", PdfEncodings.IDENTITY_H, true);
         } catch (IOException e1) {
@@ -41,7 +41,7 @@ public class PdfGenerator {
         document.add(titleParagraph);
 
         // 도서 정보 테이블 생성
-        Table table = new Table(UnitValue.createPercentArray(new float[]{2, 2, 2, 2}));
+        Table table = new Table(UnitValue.createPercentArray(new float[]{2, 2, 2, 2, 2, 2}));
         table.setWidth(UnitValue.createPercentValue(100));
         table.setMarginTop(20);
 
@@ -49,6 +49,8 @@ public class PdfGenerator {
         table.addHeaderCell(createCell("제목", true));
         table.addHeaderCell(createCell("저자", true));
         table.addHeaderCell(createCell("출판사", true));
+        table.addHeaderCell(createCell("도서정가", true));
+        table.addHeaderCell(createCell("도서판매가", true));
         table.addHeaderCell(createCell("이미지", true));
 
         // 도서 정보를 테이블에 추가
@@ -56,18 +58,28 @@ public class PdfGenerator {
             table.addCell(createCell(book.getTitle(), false));
             table.addCell(createCell(book.getAuthor(), false));
             table.addCell(createCell(book.getPublisher(), false));
+            table.addCell(createCell(String.valueOf(book.getPrice()), false));
+            table.addCell(createCell(String.valueOf(book.getSale_price()), false));
 
             // 이미지 추가
             try {
-                ImageData imageData = ImageDataFactory.create(book.getThumbnail());
-                Image image = new Image(imageData);
-                image.setAutoScale(true);
-                table.addCell(new Cell().add(image).setPadding(5));
+                String thumbnail = book.getThumbnail();
+//                System.out.println("thumbnail = " + thumbnail);
+                if (thumbnail == null || thumbnail.isEmpty()) {
+                    table.addCell(createCell("이미지없음", false));
+                } else {
+                    File file = new File(thumbnail);
+                    ImageData imageData = ImageDataFactory.create(thumbnail);
+                    Image image = new Image(imageData);
+                    image.setAutoScale(true);
+                    table.addCell(new Cell().add(image).setPadding(5));
+                }
             } catch (MalformedURLException e) {
+                table.addCell(createCell("URL 형식이 잘못되었습니다", false));
+            } catch (IOException e) {
                 table.addCell(createCell("이미지 불러오기 실패", false));
             }
         }
-
         document.add(table);
         document.close();
     }

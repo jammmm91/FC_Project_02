@@ -18,9 +18,11 @@ public class BookSearchMain {
                 for (Book book : bookList) {
                     System.out.println(book);
                 }
-//                String fileName = "도서목록.pdf";
-//                PdfGenerator.generateBookListPdf(books, fileName);
-//                System.out.println(fileName + " 파일이 생성되었습니다");
+                String path = "Files/";
+                String fileName = bookName + ".pdf";
+                String fullPath = path + fileName;
+                PdfGenerator.generateBookListPdf(bookList, fullPath);
+                System.out.println(fileName + " 파일이 생성되었습니다");
             }
         }catch (IOException e) {
             System.out.println("에러가 발생하었습니다" + e.getMessage());

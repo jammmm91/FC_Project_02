@@ -4,17 +4,22 @@ public class Book {
     private String title;
     private String author;
     private String publisher;
+    private int price;
+    private int sale_price;
     private String thumbnail;
 
     public Book() {
 
     }
 
-    public Book(String title, String author, String publisher, String thumbnail) {
+    public Book(String title, String author, String publisher, int price, int sale_price, String thumbnail) {
         this.title = title;
         this.author = author;
         this.publisher = publisher;
+        this.price = price;
+        this.sale_price = sale_price;
         this.thumbnail = thumbnail;
+
     }
 
     public String getTitle() {
@@ -41,6 +46,22 @@ public class Book {
         this.publisher = publisher;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getSale_price() {
+        return sale_price;
+    }
+
+    public void setSale_price(int sale_price) {
+        this.sale_price = sale_price;
+    }
+
     public String getThumbnail() {
         return thumbnail;
     }
@@ -55,6 +76,8 @@ public class Book {
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", publisher='" + publisher + '\'' +
+                ", price=" + price +
+                ", sale_price=" + sale_price +
                 ", thumbnail='" + thumbnail + '\'' +
                 '}';
     }

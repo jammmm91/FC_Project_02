@@ -42,6 +42,8 @@ public class KakaoBookApi {
                         bookJson.get("title").getAsString(),
                         bookJson.get("authors").getAsJsonArray().toString(),
                         bookJson.get("publisher").getAsString(),
+                        bookJson.get("price").getAsInt(),
+                        bookJson.get("sale_price").getAsInt(),
                         bookJson.get("thumbnail").getAsString()
                 );
                 books.add(book);
